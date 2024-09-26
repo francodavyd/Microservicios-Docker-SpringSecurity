@@ -20,13 +20,13 @@ public class PedidoServiceImpl implements IPedidoService{
     private IPedidoRepository repository;
 
     @Autowired
-    private IProductoFeignClient client;
+    private IProductoFeignClient iProductoFeignClient;
     @Override
     @Transactional
     public void save(Pedido pedido) {
         // Verificar disponibilidad de productos en el catálogo
         for (DetallePedido detalle : pedido.getDetalles()) {
-            ProductoDTO producto = client.getProductoById(detalle.getProductoId());
+            ProductoDTO producto = iProductoFeignClient.getProductoById(detalle.getProductoId());
 
             // Verificar si hay suficiente stock disponible
             if (producto.getStockDisponible() < detalle.getCantidad()) {
@@ -34,7 +34,7 @@ public class PedidoServiceImpl implements IPedidoService{
             }
 
             // Reservar el stock
-            client.reservStock(detalle.getProductoId(), detalle.getCantidad());
+            iProductoFeignClient.reservStock(detalle.getProductoId(), detalle.getCantidad());
 
             // Actualizar el precio del detalle con el precio actual del producto
             detalle.setPrecioUnitario(producto.getPrecio());
@@ -78,7 +78,7 @@ public class PedidoServiceImpl implements IPedidoService{
 
         // Lógica para liberar el stock reservado
         for (DetallePedido detalle : pedido.getDetalles()) {
-            client.confirmStock(detalle.getProductoId(), detalle.getCantidad());
+            iProductoFeignClient.confirmStock(detalle.getProductoId(), detalle.getCantidad());
         }
 
         // Actualizar el estado del pedido a CONFIRMADO
@@ -93,7 +93,7 @@ public class PedidoServiceImpl implements IPedidoService{
 
         // Lógica para liberar el stock reservado
         for (DetallePedido detalle : pedido.getDetalles()) {
-            client.cancelStock(detalle.getProductoId(), detalle.getCantidad());
+            iProductoFeignClient.cancelStock(detalle.getProductoId(), detalle.getCantidad());
         }
 
         // Actualizar el estado del pedido a CANCELADO

@@ -30,7 +30,7 @@ public class PedidoController {
             return new ResponseEntity<>("El producto solicitado no se ha encontrado", HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/updateStatus/{idPedido/{estado}")
+    @PutMapping("/updateStatus/{idPedido}/{estadoPedido}")
     public ResponseEntity<?> actualizarEstado(@PathVariable Long idPedido, @PathVariable EEstadoPedido estadoPedido){
         try {
             return new ResponseEntity<>(service.updateOrderStatus(idPedido, estadoPedido), HttpStatus.OK);
