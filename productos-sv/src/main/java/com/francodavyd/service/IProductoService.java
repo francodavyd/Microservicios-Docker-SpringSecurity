@@ -11,5 +11,8 @@ public interface IProductoService {
     public Optional<Producto> findById(Long id);
     public void deleteById(Long id);
     public Optional<Producto> update(Long id, Producto producto);
-    public void actualizarStock(Long id, int cantidad);
+    public void updateStock(Long id, int cantidad);
+    public void reserveStock(Long productoId, int cantidad);
+    public void confirmStock(Long productoId, int cantidad);
+    public void cancelStock(Long productoId, int cantidad);
 }

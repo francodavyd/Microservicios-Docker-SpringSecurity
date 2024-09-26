@@ -47,8 +47,8 @@ public class IProductoServiceImpl implements IProductoService{
             if (producto.getPrecio() != null) {
                 productoExistente.setPrecio(producto.getPrecio());
             }
-            if (producto.getStock() != null) {
-                productoExistente.setStock(producto.getStock());
+            if (producto.getStockDisponible() != null) {
+                productoExistente.setStockDisponible(producto.getStockDisponible());
             }
             if (producto.getCategoria() != null) {
                 productoExistente.setCategoria(producto.getCategoria());
@@ -62,14 +62,47 @@ public class IProductoServiceImpl implements IProductoService{
 
 
     @Override
-    public void actualizarStock(Long id, int cantidad) {
+    public void updateStock(Long id, int cantidad) {
         Optional<Producto> prod = this.findById(id);
         if (prod.isPresent()){
-            prod.get().setStock(prod.get().getStock() - cantidad);
+            prod.get().setStockDisponible(prod.get().getStockDisponible() - cantidad);
             this.save(prod.get());
 
         } else {
             throw new RuntimeException("Lo sentimos, ha ocurrido un error");
         }
+    }
+
+    @Override
+    public void reserveStock(Long productoId, int cantidad) {
+        Producto producto = repository.findById(productoId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        if (producto.getStockDisponible() >= cantidad) {
+            producto.setStockDisponible(producto.getStockDisponible() - cantidad);
+            producto.setStockReservado(producto.getStockReservado() + cantidad);
+            repository.save(producto);
+        } else {
+            throw new RuntimeException("Stock insuficiente para reservar");
+        }
+    }
+
+    @Override
+    public void confirmStock(Long productoId, int cantidad) {
+        Producto producto = repository.findById(productoId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        producto.setStockReservado(producto.getStockReservado() - cantidad);
+        repository.save(producto);
+    }
+
+    @Override
+    public void cancelStock(Long productoId, int cantidad) {
+        Producto producto = repository.findById(productoId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        producto.setStockReservado(producto.getStockReservado() - cantidad);
+        producto.setStockDisponible(producto.getStockDisponible() + cantidad);
+        repository.save(producto);
     }
 }

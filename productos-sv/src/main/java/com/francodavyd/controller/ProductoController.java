@@ -57,10 +57,37 @@ public class ProductoController {
     @PutMapping("/stock/{id}/{cantidad}")
     public ResponseEntity<?> actualizarStock(@PathVariable Long id, @PathVariable int cantidad){
         try {
-            service.actualizarStock(id, cantidad);
+            service.updateStock(id, cantidad);
             return new ResponseEntity<>("Stock actualizado", HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>("Lo sentimos, ha ocurrido un error. Intente nuevamente", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PutMapping("/reservar/{id}/{cantidad}")
+    public ResponseEntity<?> reservarStock(Long idProducto, int cantidad){
+        try {
+            service.reserveStock(idProducto, cantidad);
+            return new ResponseEntity<>("Stock reservado correctamente", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Lo sentimos, ha ocurrido un error. Intente nuevamente", HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/confirmar/{id}/{cantidad}")
+    public ResponseEntity<?> confirmarStock(Long idProducto, int cantidad){
+        try {
+            service.confirmStock(idProducto, cantidad);
+            return new ResponseEntity<>("Stock confirmado correctamente", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Lo sentimos, ha ocurrido un error. Intente nuevamente", HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/cancelar/{id}/{cantidad}")
+    public ResponseEntity<?> cancelarStock(Long idProducto, int cantidad){
+        try {
+            service.cancelStock(idProducto, cantidad);
+            return new ResponseEntity<>("Stock cancelado correctamente", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Lo sentimos, ha ocurrido un error. Intente nuevamente", HttpStatus.NOT_FOUND);
         }
     }
 }
