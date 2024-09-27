@@ -72,7 +72,7 @@ public class PedidoServiceImpl implements IPedidoService{
 
 
     @Override
-    public void confirmStock(Long idProducto, int cantidad) {
+    public void confirmStock(Long idProducto, Integer cantidad) {
         Pedido pedido = repository.findById(idProducto)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
 
@@ -87,7 +87,7 @@ public class PedidoServiceImpl implements IPedidoService{
     }
 
     @Override
-    public void cancelStock(Long idProducto, int cantidad) {
+    public void cancelStock(Long idProducto, Integer cantidad) {
         Pedido pedido = repository.findById(idProducto)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
 

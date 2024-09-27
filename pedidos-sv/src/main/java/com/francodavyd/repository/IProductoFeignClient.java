@@ -11,9 +11,9 @@ public interface IProductoFeignClient {
     @GetMapping("/get/{id}")
     ProductoDTO getProductoById(@PathVariable("id") Long id);
     @PutMapping("/reservar/{id}/{cantidad}")
-    void reservStock(@PathVariable("id") Long id, @PathVariable("cantidad") int cantidad);
+    void reservStock(@PathVariable("id") Long productoId, @PathVariable("cantidad") Integer cantidad);
     @PutMapping("/confirmar/{id}/{cantidad}")
-    void confirmStock(@PathVariable("id") Long id, @PathVariable("cantidad") int cantidad);
+    void confirmStock(@PathVariable("id") Long productoId, @PathVariable("cantidad") Integer cantidad);
     @PutMapping("/cancelar/{id}/{cantidad}")
-    void cancelStock(@PathVariable("id") Long id, @PathVariable("cantidad") int cantidad);
+    void cancelStock(@PathVariable("id") Long productoId, @PathVariable("cantidad") Integer cantidad);
 }
