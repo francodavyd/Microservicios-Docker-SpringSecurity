@@ -62,7 +62,7 @@ public class IProductoServiceImpl implements IProductoService{
 
 
     @Override
-    public void updateStock(Long id, int cantidad) {
+    public void updateStock(Long id, Integer cantidad) {
         Optional<Producto> prod = this.findById(id);
         if (prod.isPresent()){
             prod.get().setStockDisponible(prod.get().getStockDisponible() - cantidad);
@@ -74,7 +74,7 @@ public class IProductoServiceImpl implements IProductoService{
     }
 
     @Override
-    public void reserveStock(Long productoId, int cantidad) {
+    public void reserveStock(Long productoId, Integer cantidad) {
         Producto producto = repository.findById(productoId)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
@@ -88,7 +88,7 @@ public class IProductoServiceImpl implements IProductoService{
     }
 
     @Override
-    public void confirmStock(Long productoId, int cantidad) {
+    public void confirmStock(Long productoId, Integer cantidad) {
         Producto producto = repository.findById(productoId)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
@@ -97,7 +97,7 @@ public class IProductoServiceImpl implements IProductoService{
     }
 
     @Override
-    public void cancelStock(Long productoId, int cantidad) {
+    public void cancelStock(Long productoId, Integer cantidad) {
         Producto producto = repository.findById(productoId)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 

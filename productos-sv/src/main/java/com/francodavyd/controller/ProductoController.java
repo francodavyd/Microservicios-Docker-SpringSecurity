@@ -55,7 +55,7 @@ public class ProductoController {
         }
     }
     @PutMapping("/stock/{id}/{cantidad}")
-    public ResponseEntity<?> actualizarStock(@PathVariable Long id, @PathVariable int cantidad){
+    public ResponseEntity<?> actualizarStock(@PathVariable Long id, @PathVariable Integer cantidad){
         try {
             service.updateStock(id, cantidad);
             return new ResponseEntity<>("Stock actualizado", HttpStatus.OK);
@@ -64,16 +64,17 @@ public class ProductoController {
         }
     }
     @PutMapping("/reservar/{id}/{cantidad}")
-    public ResponseEntity<?> reservarStock(Long idProducto, int cantidad){
+    public ResponseEntity<?> reservarStock(@PathVariable("id") Long idProducto, @PathVariable("cantidad") Integer cantidad){
         try {
             service.reserveStock(idProducto, cantidad);
             return new ResponseEntity<>("Stock reservado correctamente", HttpStatus.OK);
         } catch (Exception e){
-            return new ResponseEntity<>("Lo sentimos, ha ocurrido un error. Intente nuevamente", HttpStatus.NOT_FOUND);
+            e.printStackTrace();
+            return new ResponseEntity<>("Lo sentimos, ha ocurrido un error. Intente nuevamente: " + e.getMessage() + e.getCause(), HttpStatus.NOT_FOUND);
         }
     }
     @PutMapping("/confirmar/{id}/{cantidad}")
-    public ResponseEntity<?> confirmarStock(Long idProducto, int cantidad){
+    public ResponseEntity<?> confirmarStock(Long idProducto, Integer cantidad){
         try {
             service.confirmStock(idProducto, cantidad);
             return new ResponseEntity<>("Stock confirmado correctamente", HttpStatus.OK);
@@ -82,7 +83,7 @@ public class ProductoController {
         }
     }
     @PutMapping("/cancelar/{id}/{cantidad}")
-    public ResponseEntity<?> cancelarStock(Long idProducto, int cantidad){
+    public ResponseEntity<?> cancelarStock(Long idProducto, Integer cantidad){
         try {
             service.cancelStock(idProducto, cantidad);
             return new ResponseEntity<>("Stock cancelado correctamente", HttpStatus.OK);

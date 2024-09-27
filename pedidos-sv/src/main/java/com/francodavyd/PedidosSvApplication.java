@@ -6,10 +6,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-public class NotificacionesSvApplication {
+public class PedidosSvApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NotificacionesSvApplication.class, args);
+		SpringApplication.run(PedidosSvApplication.class, args);
 	}
 
 }
