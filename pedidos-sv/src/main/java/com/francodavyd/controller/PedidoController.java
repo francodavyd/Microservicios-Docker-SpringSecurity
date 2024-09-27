@@ -19,7 +19,8 @@ public class PedidoController {
         service.save(pedido);
         return new ResponseEntity<>("Pedido creado correctamente", HttpStatus.CREATED);
     } catch (Exception e){
-        return new ResponseEntity<>("Lo sentimos ha ocurrido un error, intente nuevamente", HttpStatus.BAD_REQUEST);
+        e.printStackTrace();
+        return new ResponseEntity<>("Lo sentimos ha ocurrido un error, intente nuevamente: " + e.getMessage() + e.getCause(), HttpStatus.BAD_REQUEST);
     }
     }
     @GetMapping("/get/{id}")
@@ -38,19 +39,19 @@ public class PedidoController {
             return new ResponseEntity<>("Lo sentimos ha ocurrido un error, intente nuevamente", HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/confirm/{idProducto}/{cantidad}")
-    public ResponseEntity<?> confirmarStock(@PathVariable Long idProducto, @PathVariable int cantidad){
+    @PutMapping("/confirm/{id}/{cantidad}")
+    public ResponseEntity<?> confirmarStock(@PathVariable Long id, @PathVariable Integer cantidad){
         try {
-            service.confirmStock(idProducto, cantidad);
+            service.confirmStock(id, cantidad);
             return new ResponseEntity<>("El stock del producto solicitado ha sido modificado correctamente", HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>("Lo sentimos ha ocurrido un error, intente nuevamente", HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/cancel/{idProducto}/{cantidad}")
-    public ResponseEntity<?> cancelStock(@PathVariable Long idProducto, @PathVariable int cantidad){
+    @PutMapping("/cancel/{id}/{cantidad}")
+    public ResponseEntity<?> cancelStock(@PathVariable Long id, @PathVariable Integer cantidad){
         try {
-            service.cancelStock(idProducto, cantidad);
+            service.cancelStock(id, cantidad);
             return new ResponseEntity<>("El stock del producto solicitado ha sido liberado correctamente", HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>("Lo sentimos ha ocurrido un error, intente nuevamente", HttpStatus.NOT_FOUND);
