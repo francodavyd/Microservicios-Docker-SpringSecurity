@@ -18,6 +18,7 @@ import com.mercadopago.resources.preference.Preference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.List;
 
 
 @Service
+
 public class PagoServiceImpl implements IPagoService {
     @Autowired
     private IPagoRepository repository;
@@ -36,6 +38,7 @@ public class PagoServiceImpl implements IPagoService {
     private String accessToken;
 
     @Override
+    @Transactional
     public String crearPago(Long pedidoId) throws MPException, MPApiException {
         MercadoPagoConfig.setAccessToken(accessToken);
 
@@ -83,7 +86,24 @@ public class PagoServiceImpl implements IPagoService {
     }
 
     @Override
-    public void actualizarEstadoPago(String paymentId, String status) {
+    @Transactional
+    public void actualizarEstadoPago(Long paymentId, Long pedido, EEstadoPago status) {
+        Pago pago = this.obtenerPorId(paymentId);
+        if (pago != null){
+            pago.setStatus(EEstadoPago.PAGADO);
+            client.confirmarStock(pedido);
+        } else {
+            throw new RuntimeException("Error al confirmar pago");
+        }
+    }
 
+    @Override
+    public List<Pago> obtenerLista() {
+        return repository.findAll();
+    }
+
+    @Override
+    public Pago obtenerPorId(Long id) {
+        return repository.findById(id).orElse(null);
     }
 }
