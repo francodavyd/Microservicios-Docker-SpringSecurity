@@ -9,6 +9,6 @@ public interface IPedidoService {
     public void save(Pedido pedido);
     public Optional<Pedido> findById(Long id);
     public Pedido updateOrderStatus(Long pedidoId, EEstadoPedido estadoPedido);
-    public void confirmStock(Long idProducto, Integer cantidad);
-    public void cancelStock(Long idProducto, Integer cantidad);
+    public void confirmStock(Long idProducto);
+    public void cancelStock(Long idProducto);
 }
