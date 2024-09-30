@@ -4,6 +4,7 @@ import com.francodavyd.dto.ProductoDTO;
 import com.francodavyd.model.DetallePedido;
 import com.francodavyd.model.EEstadoPedido;
 import com.francodavyd.model.Pedido;
+import com.francodavyd.repository.IPagoFeignClient;
 import com.francodavyd.repository.IPedidoRepository;
 import com.francodavyd.repository.IProductoFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,12 @@ import java.util.Optional;
 public class PedidoServiceImpl implements IPedidoService{
     @Autowired
     private IPedidoRepository repository;
-
     @Autowired
     private IProductoFeignClient iProductoFeignClient;
+
     @Override
     @Transactional
-    public void save(Pedido pedido) {
+    public Pedido save(Pedido pedido) {
         // Verificar disponibilidad de productos en el catálogo
         for (DetallePedido detalle : pedido.getDetalles()) {
             ProductoDTO producto = iProductoFeignClient.getProductoById(detalle.getProductoId());
@@ -50,7 +51,7 @@ public class PedidoServiceImpl implements IPedidoService{
         pedido.setEstado(EEstadoPedido.PENDIENTE); // Asignar el estado inicial
 
         // Guardar el pedido en la base de datos
-        repository.save(pedido);
+        return repository.save(pedido);
     }
 
     @Override
