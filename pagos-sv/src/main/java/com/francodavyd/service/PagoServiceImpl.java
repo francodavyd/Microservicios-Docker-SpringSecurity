@@ -1,6 +1,7 @@
 package com.francodavyd.service;
 
 import com.francodavyd.dto.DetallePedidoDTO;
+import com.francodavyd.dto.EEstadoPedido;
 import com.francodavyd.dto.PedidoDTO;
 import com.francodavyd.dto.ProductoDTO;
 import com.francodavyd.model.EEstadoPago;
@@ -87,11 +88,12 @@ public class PagoServiceImpl implements IPagoService {
 
     @Override
     @Transactional
-    public void actualizarEstadoPago(Long paymentId, Long pedido, EEstadoPago status) {
-        Pago pago = this.obtenerPorId(paymentId);
+    public Pago actualizarEstadoPago(Long idPago, Long pedidoId) {
+        Pago pago = this.obtenerPorId(idPago);
         if (pago != null){
             pago.setStatus(EEstadoPago.PAGADO);
-            client.confirmarStock(pedido);
+            client.confirmarStock(pedidoId);
+            return pago;
         } else {
             throw new RuntimeException("Error al confirmar pago");
         }
@@ -105,5 +107,10 @@ public class PagoServiceImpl implements IPagoService {
     @Override
     public Pago obtenerPorId(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void eliminar(Long id) {
+        repository.deleteById(id);
     }
 }

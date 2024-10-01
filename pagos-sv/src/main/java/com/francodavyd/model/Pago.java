@@ -21,5 +21,6 @@ public class Pago {
     private EEstadoPago status;
     private String preferenceId;
     private String urlPago;
+    private String paymentId;
     private LocalDate fechaCreacion;
 }
