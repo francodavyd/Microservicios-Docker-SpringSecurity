@@ -39,19 +39,19 @@ public class PedidoController {
             return new ResponseEntity<>("Lo sentimos ha ocurrido un error, intente nuevamente", HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/confirm/{id}/{cantidad}")
-    public ResponseEntity<?> confirmarStock(@PathVariable Long id, @PathVariable Integer cantidad){
+    @PutMapping("/confirm/{id}")
+    public ResponseEntity<?> confirmarStock(@PathVariable Long id){
         try {
-            service.confirmStock(id, cantidad);
+            service.confirmStock(id);
             return new ResponseEntity<>("El stock del producto solicitado ha sido modificado correctamente", HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>("Lo sentimos ha ocurrido un error, intente nuevamente", HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/cancel/{id}/{cantidad}")
-    public ResponseEntity<?> cancelStock(@PathVariable Long id, @PathVariable Integer cantidad){
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelStock(@PathVariable Long id){
         try {
-            service.cancelStock(id, cantidad);
+            service.cancelStock(id);
             return new ResponseEntity<>("El stock del producto solicitado ha sido liberado correctamente", HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>("Lo sentimos ha ocurrido un error, intente nuevamente", HttpStatus.NOT_FOUND);
