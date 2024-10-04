@@ -2,6 +2,7 @@ package com.francodavyd.controller;
 
 import com.francodavyd.model.EEstadoPedido;
 import com.francodavyd.model.Pedido;
+import com.francodavyd.repository.IPagoFeignClient;
 import com.francodavyd.service.IPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class PedidoController {
     @Autowired
     private IPedidoService service;
+    @Autowired
+    private IPagoFeignClient pagoClient;
     @PostMapping("/save")
     public ResponseEntity<?> crearPedido(@RequestBody Pedido pedido){
     try {
-        service.save(pedido);
-        return new ResponseEntity<>("Pedido creado correctamente", HttpStatus.CREATED);
+        Pedido pedidoGuardado = service.save(pedido);
+        String url = pagoClient.crearPago(pedidoGuardado.getId());
+        return new ResponseEntity<>( url, HttpStatus.CREATED);
     } catch (Exception e){
         e.printStackTrace();
         return new ResponseEntity<>("Lo sentimos ha ocurrido un error, intente nuevamente: " + e.getMessage() + e.getCause(), HttpStatus.BAD_REQUEST);

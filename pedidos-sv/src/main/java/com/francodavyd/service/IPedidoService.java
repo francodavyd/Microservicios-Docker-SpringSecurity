@@ -6,7 +6,7 @@ import com.francodavyd.model.Pedido;
 import java.util.Optional;
 
 public interface IPedidoService {
-    public void save(Pedido pedido);
+    public Pedido save(Pedido pedido);
     public Optional<Pedido> findById(Long id);
     public Pedido updateOrderStatus(Long pedidoId, EEstadoPedido estadoPedido);
     public void confirmStock(Long idProducto);
