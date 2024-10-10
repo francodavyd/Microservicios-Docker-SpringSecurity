@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-@FeignClient(name = "pedidos-sv" , url = "http://localhost:8090/pedido")
+@FeignClient(name = "pedidos-sv")
 public interface IPedidoFeignClient {
     @GetMapping("/get/{id}")
     public PedidoDTO obtenerPorId(@PathVariable("id") Long id);
