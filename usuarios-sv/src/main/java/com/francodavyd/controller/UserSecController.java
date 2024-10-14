@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @PreAuthorize("denyAll()")
 public class UserSecController {
     @Autowired

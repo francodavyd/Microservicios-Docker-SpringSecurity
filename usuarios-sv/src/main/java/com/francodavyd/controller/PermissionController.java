@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/permission")
+@RequestMapping("/permission")
 @PreAuthorize("denyAll()")
 public class PermissionController {
     @Autowired

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
 import java.util.Set;
 @RestController
-@RequestMapping("/api/role")
+@RequestMapping("/role")
 @PreAuthorize("denyAll()")
 public class RoleController {
     @Autowired
