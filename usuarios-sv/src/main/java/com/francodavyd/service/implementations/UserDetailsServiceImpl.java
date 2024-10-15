@@ -96,6 +96,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String username = createUser.username();
         String password = createUser.password();
         List<String> roleListName = createUser.authCreateRoleRequest().roleListName();
+        String email = createUser.email();
 
         Set<Role> roleSet = repositoryR.findByRoleIn(roleListName).stream().collect(Collectors.toSet());
         if (roleSet.isEmpty()){
@@ -104,6 +105,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserSec userSec = UserSec.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
+                .email(email)
                 .rolesList(roleSet)
                 .enabled(true)
                 .accountNotExpired(true)

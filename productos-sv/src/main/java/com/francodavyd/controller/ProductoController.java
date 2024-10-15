@@ -5,14 +5,17 @@ import com.francodavyd.service.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/product")
+@PreAuthorize("permitAll()")
 public class ProductoController {
     @Autowired
     private IProductoService service;
     @PostMapping("/save")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> crearProducto(@RequestBody Producto producto){
         try {
             service.save(producto);
@@ -38,6 +41,7 @@ public class ProductoController {
       }
     }
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> eliminarProducto(@PathVariable Long id){
         try {
             service.deleteById(id);
@@ -47,6 +51,7 @@ public class ProductoController {
         }
     }
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> editarProducto(@PathVariable Long id, @RequestBody Producto producto){
         try {
             return new ResponseEntity<>(service.update(id, producto), HttpStatus.OK);
@@ -55,6 +60,7 @@ public class ProductoController {
         }
     }
     @PutMapping("/stock/{id}/{cantidad}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> actualizarStock(@PathVariable Long id, @PathVariable Integer cantidad){
         try {
             service.updateStock(id, cantidad);
@@ -64,6 +70,7 @@ public class ProductoController {
         }
     }
     @PutMapping("/reservar/{id}/{cantidad}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> reservarStock(@PathVariable("id") Long idProducto, @PathVariable("cantidad") Integer cantidad){
         try {
             service.reserveStock(idProducto, cantidad);
@@ -74,6 +81,7 @@ public class ProductoController {
         }
     }
     @PutMapping("/confirmar/{id}/{cantidad}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> confirmarStock(Long idProducto, Integer cantidad){
         try {
             service.confirmStock(idProducto, cantidad);
@@ -83,6 +91,7 @@ public class ProductoController {
         }
     }
     @PutMapping("/cancelar/{id}/{cantidad}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> cancelarStock(Long idProducto, Integer cantidad){
         try {
             service.cancelStock(idProducto, cantidad);
