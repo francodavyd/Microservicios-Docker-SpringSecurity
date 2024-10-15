@@ -7,10 +7,12 @@ import com.francodavyd.service.IPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pedido")
+@PreAuthorize("permitAll()")
 public class PedidoController {
     @Autowired
     private IPedidoService service;
@@ -32,7 +34,7 @@ public class PedidoController {
         try {
             return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
         } catch (Exception e){
-            return new ResponseEntity<>("El producto solicitado no se ha encontrado", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("El pedido solicitado no se ha encontrado", HttpStatus.NOT_FOUND);
         }
     }
     @PutMapping("/updateStatus/{idPedido}/{estadoPedido}")
