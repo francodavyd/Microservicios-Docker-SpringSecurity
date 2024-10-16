@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "notificaciones-sv")
 public interface IEmailSenderFeignClient {
-    @PostMapping("/sendMessage")
+    @PostMapping("/mail/sendMessage")
     public void receiveRequestEmail(@RequestBody EmailDTO emailDTO);
 }

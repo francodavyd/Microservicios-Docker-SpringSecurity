@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.auth0.jwt.JWT;
-
 import com.auth0.jwt.JWTVerifier;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -40,7 +39,6 @@ public class JWTUtils {
     public String extractUsername (DecodedJWT decodedJWT) {
         return decodedJWT.getSubject().toString();
     }
-
     public String getCurrentJwt() {
         // Obtener el request actual desde el contexto de seguridad
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

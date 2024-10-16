@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(name = "pagos-sv")
 public interface IPagoFeignClient {
-    @PostMapping("/save/{pedidoId}")
+    @PostMapping("/pago/save/{pedidoId}")
     public String crearPago(@PathVariable("pedidoId") Long pedidoId);
 
 }

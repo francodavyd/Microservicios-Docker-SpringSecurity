@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @FeignClient(name = "productos-sv")
 public interface IProductoFeignClient {
-    @GetMapping("/get/{id}")
+    @GetMapping("/product/get/{id}")
     ProductoDTO getProductoById(@PathVariable("id") Long id);
-    @PutMapping("/reservar/{id}/{cantidad}")
+    @PutMapping("/product/reservar/{id}/{cantidad}")
     void reservStock(@PathVariable("id") Long productoId, @PathVariable("cantidad") Integer cantidad);
-    @PutMapping("/confirmar/{id}/{cantidad}")
+    @PutMapping("/product/confirmar/{id}/{cantidad}")
     void confirmStock(@PathVariable("id") Long productoId, @PathVariable("cantidad") Integer cantidad);
-    @PutMapping("/cancelar/{id}/{cantidad}")
+    @PutMapping("/product/cancelar/{id}/{cantidad}")
     void cancelStock(@PathVariable("id") Long productoId, @PathVariable("cantidad") Integer cantidad);
 }

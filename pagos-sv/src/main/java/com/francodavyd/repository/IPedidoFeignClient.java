@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @FeignClient(name = "pedidos-sv")
 public interface IPedidoFeignClient {
-    @GetMapping("/get/{id}")
+    @GetMapping("/pedido/get/{id}")
     public PedidoDTO obtenerPorId(@PathVariable("id") Long id);
-    @PutMapping("/confirm/{id}")
+    @PutMapping("/pedido/confirm/{id}")
     public void confirmarStock(@PathVariable("id") Long id);
-    @PutMapping("/cancel/{id}")
+    @PutMapping("/perdido/cancel/{id}")
     public void cancelStock(@PathVariable("id") Long id);
 
 }

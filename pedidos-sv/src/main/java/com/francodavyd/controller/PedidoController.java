@@ -63,4 +63,12 @@ public class PedidoController {
             return new ResponseEntity<>("Lo sentimos ha ocurrido un error, intente nuevamente", HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/all")
+    public ResponseEntity<?> getAll(){
+        try {
+            return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }
