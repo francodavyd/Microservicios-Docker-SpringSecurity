@@ -17,6 +17,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +26,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/webhook")
+@PreAuthorize("permitAll()")
 public class WebHookController {
 
     @Autowired
@@ -73,7 +75,11 @@ public class WebHookController {
         // Consultar el pago en Mercado Pago
         try {
             Payment payment = getPaymentDetailsFromMercadoPago(Long.parseLong(paymentId));
-
+            if (payment == null) {
+                System.out.println("Error al obtener paymentId");
+            } else {
+                System.out.println("recibido");
+            }
             // Buscar el pago en la base de datos usando el preferenceId
             Optional<Pago> pagoOpt = repository.findByPreferenceId(String.valueOf(payment.getOrder().getId()));
 
