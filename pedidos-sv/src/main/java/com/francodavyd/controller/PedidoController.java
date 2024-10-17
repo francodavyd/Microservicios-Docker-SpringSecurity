@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class PedidoController {
     @Autowired
     private IPedidoService service;
-    @Autowired
-    private IPagoFeignClient pagoClient;
+
     @PostMapping("/save")
     public ResponseEntity<?> crearPedido(@RequestBody Pedido pedido){
     try {
         Pedido pedidoGuardado = service.save(pedido);
-        String url = pagoClient.crearPago(pedidoGuardado.getId());
+        String url = service.createPayment(pedidoGuardado.getId());
         return new ResponseEntity<>( url, HttpStatus.CREATED);
     } catch (Exception e){
         e.printStackTrace();

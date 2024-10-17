@@ -7,6 +7,7 @@ import com.francodavyd.model.Pedido;
 import com.francodavyd.repository.IPagoFeignClient;
 import com.francodavyd.repository.IPedidoRepository;
 import com.francodavyd.repository.IProductoFeignClient;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,9 +24,12 @@ public class PedidoServiceImpl implements IPedidoService{
     private IPedidoRepository repository;
     @Autowired
     private IProductoFeignClient iProductoFeignClient;
+    @Autowired
+    private IPagoFeignClient pagoClient;
 
     @Override
     @Transactional
+    @CircuitBreaker(name = "productoCB", fallbackMethod = "saveFallback")
     public Pedido save(Pedido pedido) {
         // Verificar disponibilidad de productos en el catálogo
         for (DetallePedido detalle : pedido.getDetalles()) {
@@ -74,6 +79,7 @@ public class PedidoServiceImpl implements IPedidoService{
 
 
     @Override
+    @CircuitBreaker(name = "productoCB", fallbackMethod = "operationFallback")
     public void confirmStock(Long idProducto) {
         Pedido pedido = repository.findById(idProducto)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
@@ -89,6 +95,7 @@ public class PedidoServiceImpl implements IPedidoService{
     }
 
     @Override
+    @CircuitBreaker(name = "productoCB", fallbackMethod = "operationFallback")
     public void cancelStock(Long idProducto) {
         Pedido pedido = repository.findById(idProducto)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
@@ -108,5 +115,28 @@ public class PedidoServiceImpl implements IPedidoService{
         return repository.findAll();
     }
 
+    @Override
+    @CircuitBreaker(name = "pagoCB", fallbackMethod = "paymentFallback")
+    public String createPayment(Long idPedido) {
+        try {
+            return pagoClient.crearPago(idPedido);
+        } catch (Exception e){
+            return e.getMessage();
+        }
 
+    }
+    public String paymentFallback(Long idPedido, Throwable throwable){
+        return "Fallback response: Error al crear la solicitud de pago: " + throwable.getMessage();
+    }
+    public Pedido saveFallback(Pedido pedido, Throwable exception) {
+
+        // Si deseas registrar la excepción para analizarla más tarde:
+        System.out.println("Error al intentar guardar el pedido: " + exception.getMessage());
+
+
+        return new Pedido(null, null, null, null, null, null);
+    }
+    public void operationFallback(Long idProducto, Throwable exception){
+        exception.printStackTrace();
+    }
 }

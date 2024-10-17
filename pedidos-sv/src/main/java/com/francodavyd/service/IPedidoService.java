@@ -13,4 +13,5 @@ public interface IPedidoService {
     public void confirmStock(Long idProducto);
     public void cancelStock(Long idProducto);
     public List<Pedido> getAll();
+    public String createPayment(Long idPedido);
 }
