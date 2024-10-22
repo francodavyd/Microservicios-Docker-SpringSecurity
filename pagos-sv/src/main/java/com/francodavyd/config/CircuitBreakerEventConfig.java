@@ -1,5 +1,6 @@
 package com.francodavyd.config;
 
+
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import org.springframework.context.annotation.Bean;
@@ -16,21 +17,14 @@ public class CircuitBreakerEventConfig {
 
     @Bean
     public void configureCircuitBreakerEvents() {
-        CircuitBreaker emailCircuitBreaker = circuitBreakerRegistry.circuitBreaker("emailCB");
-        emailCircuitBreaker.getEventPublisher()
-                .onSuccess(event -> System.out.println("EmailCB service call successful"))
-                .onError(event -> System.out.println("EmailCB service call failed: " + event.getThrowable().getMessage()))
-                .onStateTransition(event -> System.out.println("EmailCB state changed from "
+        CircuitBreaker pedidoCircuitBreaker = circuitBreakerRegistry.circuitBreaker("pedidoCB");
+        pedidoCircuitBreaker.getEventPublisher()
+                .onSuccess(event -> System.out.println("PedidoCB service call successful"))
+                .onError(event -> System.out.println("PedidoCB service call failed: " + event.getThrowable().getMessage()))
+                .onStateTransition(event -> System.out.println("PedidoCB state changed from "
                         + event.getStateTransition().getFromState()
                         + " to " + event.getStateTransition().getToState()));
 
-        CircuitBreaker pagoCircuitBreaker = circuitBreakerRegistry.circuitBreaker("pagoCB");
-        pagoCircuitBreaker.getEventPublisher()
-                .onSuccess(event -> System.out.println("PaymentCB service call successful"))
-                .onError(event -> System.out.println("PaymentCB service call failed: " + event.getThrowable().getMessage()))
-                .onStateTransition(event -> System.out.println("PaymentCB state changed from "
-                        + event.getStateTransition().getFromState()
-                        + " to " + event.getStateTransition().getToState()));
 
         CircuitBreaker productoCircuitBreaker = circuitBreakerRegistry.circuitBreaker("productoCB");
         productoCircuitBreaker.getEventPublisher()
