@@ -2,6 +2,7 @@ package com.francodavyd.config;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
+import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +15,7 @@ public class CircuitBreakerEventConfig {
         this.circuitBreakerRegistry = circuitBreakerRegistry;
     }
 
-    @Bean
+@PostConstruct
     public void configureCircuitBreakerEvents() {
         CircuitBreaker emailCircuitBreaker = circuitBreakerRegistry.circuitBreaker("emailCB");
         emailCircuitBreaker.getEventPublisher()
