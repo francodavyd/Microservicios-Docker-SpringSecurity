@@ -1,8 +1,6 @@
 spring:
   application:
     name: notificaciones-sv
-server:
-  port: ${PORT:${SERVER_PORT:0}}
 email:
   sender: ${email}
   password: ${password}
@@ -12,3 +10,5 @@ eureka:
       defaultZone: http://localhost:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+server:
+  port: ${PORT:${SERVER_PORT:0}}

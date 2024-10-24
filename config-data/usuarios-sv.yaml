@@ -1,8 +1,6 @@
 spring:
   application:
     name: usuarios-sv
-  server:
-    port: ${PORT:${SERVER_PORT:0}}
   datasource:
     url: jdbc:mysql://localhost:3306/usersec_db?serverTimezone=UTC
     username: root
@@ -11,6 +9,9 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL8Dialect
+
+server:
+  port: ${PORT:${SERVER_PORT:0}}
 
 security:
   jwt:
