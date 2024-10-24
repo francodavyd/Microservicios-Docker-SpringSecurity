@@ -3,6 +3,6 @@ spring:
     name: api-gateway
   cloud:
     config:
-      enabled:
+      enabled: true
       uri: http://localhost:8085
 

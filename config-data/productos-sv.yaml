@@ -1,10 +1,8 @@
 spring:
   application:
     name: productos-sv
-server:
-  port: ${PORT:${SERVER_PORT:0}}
-  
-spring:
+  server:
+    port: ${PORT:${SERVER_PORT:0}}
   datasource:
     url: jdbc:mysql://localhost:3306/producto_db?serverTimezone=UTC
     username: root
@@ -12,6 +10,7 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL8Dialect
+
 
 eureka:
   client:

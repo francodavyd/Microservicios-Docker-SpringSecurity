@@ -3,5 +3,5 @@ spring:
     name: productos-sv
   cloud:
     config:
-      enabled:
+      enabled: true
       uri: http://localhost:8085
