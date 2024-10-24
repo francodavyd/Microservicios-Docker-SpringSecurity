@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: eureka-sv
+  cloud:
+    config:
+      enabled:
+      uri: http://localhost:8085
