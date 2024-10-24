@@ -1,16 +1,8 @@
 spring:
   application:
     name: pagos-sv
-server:
-  port: ${PORT:${SERVER_PORT:0}}
-
-mercadopago:
-  access:
-    token: ${accessToken}
-  webhook:
-    token: ${hookToken}
-
-spring:
+  server:
+    port: ${PORT:${SERVER_PORT:0}}
   datasource:
     url: jdbc:mysql://localhost:3306/pagos_db?serverTimezone=UTC
     username: root
@@ -18,6 +10,12 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL8Dialect
+
+mercadopago:
+  access:
+    token: ${accessToken}
+  webhook:
+    token: ${hookToken}
 
 eureka:
   client:

@@ -1,13 +1,12 @@
 spring:
   application:
     name: pedidos-sv
-server:
-  port: ${PORT:${SERVER_PORT:0}}
-  
-spring:
+  server:
+    port: ${PORT:${SERVER_PORT:0}}
   datasource:
     url: jdbc:mysql://localhost:3306/pedido_db?serverTimezone=UTC
     username: root
+
   jpa:
     hibernate:
       ddl-auto: update
