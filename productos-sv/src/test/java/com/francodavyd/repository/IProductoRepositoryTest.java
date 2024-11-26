@@ -6,9 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
+
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -51,10 +51,12 @@ public class IProductoRepositoryTest {
     @DisplayName("Test para obtener producto por ID")
     @Test
     public void findByIdTest(){
-        repository.save(producto);
-        Producto prod = repository.findById(producto.getId()).get();
-        assertThat(prod).isNotNull();
-        assertThat(prod.getNombre()).isEqualTo("Aceite");
+        Producto savedProducto = repository.save(producto);
+
+        Optional<Producto> prod = repository.findById(savedProducto.getId());
+
+        assertThat(prod).isPresent();
+        assertThat(prod.get().getNombre()).isEqualTo("Aceite");
     }
     @DisplayName("Test para eliminar un producto")
     @Test
@@ -67,15 +69,18 @@ public class IProductoRepositoryTest {
     @DisplayName("Test para actualizar un producto")
     @Test
     public void updateTest(){
-        repository.save(producto);
+        Producto savedProducto = repository.save(producto);
 
-        Producto prod = repository.findById(producto.getId()).get();
-        prod.setNombre("Carne");
-        prod.setCategoria("Alimentos");
-        Producto prodAct = repository.save(prod);
+        Optional<Producto> prod = repository.findById(savedProducto.getId());
+
+        assertThat(prod).isPresent();
+
+        prod.get().setNombre("Carne");
+        prod.get().setCategoria("Alimentos");
+        Producto prodAct = repository.save(prod.get());
 
         assertThat(prodAct).isNotNull();
-        assertThat(prodAct.getId()).isEqualTo(producto.getId());
+        assertThat(prodAct.getId()).isEqualTo(savedProducto.getId());
         assertThat(prodAct.getNombre()).isEqualTo("Carne");
         assertThat(prodAct.getCategoria()).isEqualTo("Alimentos");
     }

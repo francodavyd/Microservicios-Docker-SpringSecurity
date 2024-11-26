@@ -10,7 +10,7 @@ spring:
           search-paths: config-data
           username: ${GIT_USER}
           password: ${GIT_PASS}
-          default-label: notifications
+          default-label: testing
   application:
     name: config-server
 eureka:

@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class IProductoServiceImpl implements IProductoService{
+public class ProductoServiceImpl implements IProductoService{
     @Autowired
     private IProductoRepository repository;
     @Override
-    public void save(Producto producto) {
-        repository.save(producto);
+    public Producto save(Producto producto) {
+        return repository.save(producto);
     }
 
     @Override

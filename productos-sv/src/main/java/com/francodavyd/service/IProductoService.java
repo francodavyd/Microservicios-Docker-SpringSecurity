@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProductoService {
-    public void save(Producto producto);
+    public Producto save(Producto producto);
     public List<Producto> getAll();
     public Optional<Producto> findById(Long id);
     public void deleteById(Long id);
