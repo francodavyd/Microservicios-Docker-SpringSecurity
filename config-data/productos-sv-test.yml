@@ -19,9 +19,6 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
-security:
-  jwt:
-    private:
-      key: ${PRIVATE_KEY}
-    user:
-      generator: ${GENERATOR}
+
+  security:
+    enabled: false
