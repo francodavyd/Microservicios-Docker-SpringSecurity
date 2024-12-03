@@ -1,5 +1,4 @@
 package com.francodavyd.service;
-
 import com.francodavyd.model.Producto;
 import com.francodavyd.repository.IProductoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,15 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.matchers.Any;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -86,4 +82,48 @@ public class ProductoServiceImplTest {
         assertThat(prod.get().getNombre()).isEqualTo("Carne asada");
 
     }
+    @DisplayName("Test para actualizar el stock de un producto")
+    @Test
+    public void updateStockTest(){
+        given(service.findById(producto.getId())).willReturn(Optional.of(producto));
+        given(service.save(producto)).willReturn(producto);
+
+        service.updateStock(producto.getId(), 3);
+
+        assertThat(producto.getStockDisponible()).isEqualTo(7);
+    }
+    @DisplayName("Test para reservar stock de un producto")
+    @Test
+    public void reserveStockTest(){
+        given(service.findById(producto.getId())).willReturn(Optional.of(producto));
+        given(service.save(producto)).willReturn(producto);
+
+        service.reserveStock(producto.getId(), 5);
+        assertThat(producto.getStockDisponible()).isEqualTo(5);
+        assertThat(producto.getStockReservado()).isEqualTo(5);
+    }
+    @DisplayName("Test para confirmar stock de un producto")
+    @Test
+    public void confirmStockTest(){
+        given(service.findById(producto.getId())).willReturn(Optional.of(producto));
+        given(service.save(producto)).willReturn(producto);
+        service.reserveStock(producto.getId(), 5);
+        service.confirmStock(producto.getId(), 5);
+
+        assertThat(producto.getStockDisponible()).isEqualTo(5);
+    }
+    @DisplayName("Test para cancelar stock de un producto")
+    @Test
+    public void cancelStockTest(){
+        given(service.findById(producto.getId())).willReturn(Optional.of(producto));
+        given(service.save(producto)).willReturn(producto);
+
+        service.reserveStock(producto.getId(), 5);
+        service.cancelStock(producto.getId(), 5);
+
+        assertThat(producto.getStockDisponible()).isEqualTo(10);
+
+    }
 }
+
+
