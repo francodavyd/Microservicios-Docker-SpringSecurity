@@ -1,14 +1,12 @@
 package com.francodavyd.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Setter
 public class EmailDTO {
     private String[] toUser;
     private String subject;
