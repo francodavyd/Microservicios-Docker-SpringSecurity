@@ -21,7 +21,6 @@ eureka:
 
 
   security:
-    enabled: false
     jwt:
       private:
         key: ${PRIVATE_KEY}
